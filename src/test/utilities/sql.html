@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Column-wise Dropdowns from CSV</title>
+<style>
+  /* Add your CSS styling here */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  .dropdown-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  select {
+    min-width: 150px;
+  }
+  button {
+    padding: 5px 10px;
+  }
+</style>
+</head>
+<body>
+  <h2>Upload CSV to Populate Column-wise Dropdowns:</h2>
+  <input type="file" id="csvFileInput" accept=".csv" onchange="loadCSV(event)">
+  <div id="dropdownContainer" class="dropdown-container">
+    <!-- Column-wise dropdowns will be dynamically added here -->
+  </div>
+  <button onclick="printSelections()">Print Selections</button>
+  
+  <script>
+    function loadCSV(event) {
+      const input = event.target;
+      if ('files' in input && input.files.length > 0) {
+        readFileContent(input.files[0]).then(content => {
+          const data = parseCSV(content);
+          createDropdowns(data);
+        }).catch(error => console.log(error))
+      }
+    }
+    
+    function readFileContent(file) {
+      const reader = new FileReader();
+      return new Promise((resolve, reject) => {
+        reader.onload = event => resolve(event.target.result);
+        reader.onerror = error => reject(error);
+        reader.readAsText(file);
+      });
+    }
+    
+    function parseCSV(str) {
+      const lines = str.split(/\r\n|\n/);
+      return lines.map(line => line.split(','));
+    }
+    
+    function createDropdowns(data) {
+      const container = document.getElementById('dropdownContainer');
+      container.innerHTML = ''; // Clear previous content
+      const columnCount = data[0].length;
+      for (let i = 0; i < columnCount; i++) {
+        const select = document.createElement('select');
+        data.forEach((row, index) => {
+          const option = document.createElement('option');
+          option.value = option.textContent = row[i];
+          select.appendChild(option);
+        });
+        container.appendChild(select);
+      }
+    }
+    
+    function printSelections() {
+      const selects = document.querySelectorAll('#dropdownContainer select');
+      const selectedValues = Array.from(selects).map(select => select.value);
+      alert('Selected Values: ' + selectedValues.join(', '));
+    }
+  </script>
+</body>
+</html>

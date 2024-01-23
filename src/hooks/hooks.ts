@@ -1,5 +1,5 @@
-import {BeforeAll, AfterAll, Before, After, Status} from "@cucumber/cucumber"
-import {chromium,Page,Browser, expect, BrowserContext} from "@playwright/test"
+import {BeforeAll, AfterAll, Before, After, Status, AfterStep} from "@cucumber/cucumber"
+import {chromium,Browser, BrowserContext} from "@playwright/test"
 
 import { driver } from "../test/utilities/Driver";
 
@@ -8,7 +8,7 @@ let browser: Browser;
 let context:BrowserContext;
 
 BeforeAll(async function() {
-    browser = await chromium.launch({headless:true});
+    browser = await chromium.launch({headless:false});
 
 } );
 
@@ -19,7 +19,14 @@ Before(async function(){
     driver.page=page;
 
 })  
+let img;
+let date=new Date();
+let dateOFDay = date.toTimeString().split("G")[0].toString().trim().replace(/:/g, "-");
+AfterStep(async function({pickle}){
 
+    img=await driver.page.screenshot({path: `./test-results/screenshotsFailed/${pickle.name}_${dateOFDay}.png`});
+    await this.attach(img,"image/png");
+})
 
 
 After(async function({pickle, result}){
