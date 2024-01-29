@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Button Creator</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>Custom Button Creator</h1>
+        <form id="buttonForm">
+            <label for="btnText">Button Text:</label>
+            <input type="text" id="btnText" name="btnText" placeholder="Click me!" />
+
+            <label for="btnColor">Button Color:</label>
+            <input type="color" id="btnColor" name="btnColor" />
+
+            <label for="btnFontSize">Font Size (px):</label>
+            <input type="number" id="btnFontSize" name="btnFontSize" placeholder="14" />
+            <label for="btnBorderRadius">Border Radius:</label>
+            <input type="range" id="btnBorderRadius" name="btnBorderRadius" min="0" max="50" value="5" />
+
+            <label for="shadowX">Shadow X-offset:</label>
+            <input type="range" id="shadowX" name="shadowX" min="-50" max="50" value="0" />
+
+            <label for="shadowY">Shadow Y-offset:</label>
+            <input type="range" id="shadowY" name="shadowY" min="-50" max="50" value="0" />
+
+            <label for="shadowBlur">Shadow Blur:</label>
+            <input type="range" id="shadowBlur" name="shadowBlur" min="0" max="50" value="10" />
+
+            <label for="shadowSpread">Shadow Spread:</label>
+            <input type="range" id="shadowSpread" name="shadowSpread" min="0" max="50" value="0" />
+            <!-- After the range inputs -->
+         <input type="button" id="generateCssBtn" value="Generate CSS">
+
+
+            <input type="submit" value="Reset" />
+        </form>
+        <div id="customButtonContainer">
+            <!-- Custom button will be displayed here -->
+        </div>
+        <div id="cssCodeContainer">
+            <h2>CSS Code for Your Button:</h2>
+            <textarea id="cssCode" readonly rows="10" style="width: 100%"></textarea>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
